@@ -1,21 +1,29 @@
 ### Application
-spring:
-    datasource:
-        driver-class-name: com.mysql.cj.jdbc.Driver
-        url: jdbc:mysql://localhost:3306/tna
-        username: ${MYSQL_USER}
-        password: ${MYSQL_PASSWORD}
-    jpa:
-        hibernate.ddl-auto: update
-        properties:
-            hibernate.dialect: org.hibernate.dialect.MySQL5InnoDBDialect
-        show-sql: true
-        open-in-view: false
+app:
+    tna-admin-login: poldex
+    tna-admin-password: poldex
 
+#### Server
 server:
     port: 8080
     servlet:
         context-path: /api
-    error:
-      include-exception: true
-      include-message: always
+
+errors:
+    expose-arguments: ALWAYS
+
+### Spring Data
+spring:
+    datasource:
+        driver-class-name: org.postgresql.Driver
+        url: jdbc:postgresql://localhost:5432/tna
+        username: poldex
+        password: poldex
+    jpa:
+        hibernate.ddl-auto: validate
+        properties:
+            hibernate.dialect: org.hibernate.dialect.PostgreSQLDialect
+        show-sql: true
+        open-in-view: false
+    liquibase:
+        change-log: 'classpath:db/changelog/db.changelog-master.yaml'
