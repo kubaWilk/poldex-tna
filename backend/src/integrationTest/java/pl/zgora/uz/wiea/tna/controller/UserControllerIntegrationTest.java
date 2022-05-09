@@ -1,103 +1,238 @@
 package pl.zgora.uz.wiea.tna.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.boot.web.server.LocalServerPort;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.http.*;
-import org.springframework.jdbc.datasource.init.ScriptUtils;
+import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
 import pl.zgora.uz.wiea.tna.model.User;
+import pl.zgora.uz.wiea.tna.persistence.entity.Role;
+import pl.zgora.uz.wiea.tna.persistence.entity.UserEntity;
+import pl.zgora.uz.wiea.tna.persistence.repository.UserRepository;
 
-import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.SQLException;
+import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.hamcrest.Matchers.containsInAnyOrder;
+import static org.hamcrest.Matchers.hasSize;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static pl.zgora.uz.wiea.tna.fixture.UserFixtures.invalidUserWithNoPassword;
+import static pl.zgora.uz.wiea.tna.fixture.UserFixtures.invalidUserWithNoUsername;
+import static pl.zgora.uz.wiea.tna.fixture.UserFixtures.olga;
+import static pl.zgora.uz.wiea.tna.fixture.UserFixtures.philip;
+import static pl.zgora.uz.wiea.tna.fixture.UserFixtures.userWithDefaultRole;
 
 @ActiveProfiles("integration")
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
-@SpringBootTest(
-        webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
-        properties = {
-                "server.domain=http://localhost",
-        }
-)
-public class UserControllerIntegrationTest {
-
-    @LocalServerPort
-    private int testServerPort;
-
-    @Value("${server.domain}")
-    private String testServerUrl;
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@AutoConfigureMockMvc
+@WithMockUser
+class UserControllerIntegrationTest {
 
     @Autowired
-    private ObjectMapper objectMapper;
+    private MockMvc mockMvc;
 
-    private TestRestTemplate restTemplate;
+    @Autowired
+    private UserRepository userRepository;
 
-    @BeforeAll
-    void setUp(@Autowired DataSource dataSource) {
-        testServerUrl = String.format("%s:%d", testServerUrl, testServerPort);
-        restTemplate = new TestRestTemplate();
+    @BeforeEach
+    void setUp() {
+        userRepository.saveAll(List.of(
+            olga().userEntity()
+        ));
+    }
 
-        try (Connection conn = dataSource.getConnection()) {
-            // you'll have to make sure conn.autoCommit = true (default for e.g. H2)
-            // e.g. url=jdbc:h2:mem:integration_testdb;DB_CLOSE_DELAY=-1;MODE=MySQL
-            ScriptUtils.executeSqlScript(conn, new ClassPathResource("samples-integration.sql"));
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
+    @AfterEach
+    void tearDown() {
+        userRepository.deleteAllInBatch();
     }
 
     @Test
-    void shouldGetAllUsers_Returns_200() throws JsonProcessingException {
-        final ResponseEntity<String> response = restTemplate.getForEntity(
-                testServerUrl + "/api/users",
-                String.class
-        );
-
-        final User[] users = convertToPojo(response.getBody(), User[].class);
-
-        assertAll(
-                () -> assertEquals(HttpStatus.OK, response.getStatusCode()),
-                () -> assertTrue(users.length > 0),
-                () -> assertEquals(users[0].getId(), 1L),
-                () -> assertEquals(users[0].getUsername(), "test1"),
-                () -> assertEquals(users[0].getPassword(), "test1")
-        );
+    @DisplayName("should return all users")
+    void shouldGetAllUsersAndReturn200() throws Exception {
+        // when
+        ResultActions resultActions
+                = mockMvc.perform(get("/users")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print());
+        // then
+        resultActions
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(1)));
     }
 
     @Test
-    void shouldGetShortUrlById_Returns_200() {
-        final ResponseEntity<User> response = restTemplate.getForEntity(
-                testServerUrl + "/api/users/1",
-                User.class
+    @DisplayName("should return specific user when valid id is passed")
+    void shouldReturnUserWhenPassedValidUser() throws Exception {
+        // given
+        UserEntity userInDb = userRepository.findByUsername(
+                        olga().userEntity().getUsername())
+                .orElse(new UserEntity());
+        final long VALID_USER_ID = userInDb.getId();
+        // when
+        ResultActions resultActions
+                = mockMvc.perform(get("/users/" + VALID_USER_ID)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print());
+        // then
+        String expectedContent = String.format(
+                "{\"id\":%d,\"username\":\"%s\",\"role\":\"%s\"}",
+                VALID_USER_ID,
+                userInDb.getUsername(),
+                userInDb.getRole().toString()
         );
-        final User user = response.getBody();
-
-        assertAll(
-                () -> assertEquals(HttpStatus.OK, response.getStatusCode()),
-                () -> assertEquals(user.getId(), 1L),
-                () -> assertEquals(user.getUsername(), "test1"),
-                () -> assertEquals(user.getPassword(), "test1")
-        );
+        resultActions
+                .andExpect(status().isOk())
+                .andExpect(content().string(expectedContent));
     }
 
-    private <T> HttpEntity<T> createRequest(final T requestedBody) {
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        return new HttpEntity<>(requestedBody, headers);
+    @Test
+    @DisplayName("should return 404 when invalid id is passed")
+    void shouldReturnNotFoundWhenPassedInvalidUser() throws Exception {
+        // given
+        final long INVALID_USER_ID = 0L;
+        // when
+        ResultActions resultActions
+                = mockMvc.perform(get("/users/" + INVALID_USER_ID)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print());
+        // then
+        resultActions
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.errors[*].code", containsInAnyOrder("resource.not_found")));
     }
 
-    private <T> T convertToPojo(final String jsonString, Class clazz) throws JsonProcessingException {
-        return (T) objectMapper.readValue(jsonString, clazz);
+    @Test
+    @DisplayName("should create user when valid user is passed and return user")
+    void shouldCreateUserWhenValidUserIsPassedAndReturnUser() throws Exception {
+        // given
+        String userJson = philip().jsonRequest();
+        // when
+        ResultActions resultActions
+                = mockMvc.perform(post("/users")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(userJson)
+                        .with(user("admin")
+                                .roles("ADMIN")
+                                .password("admin")))
+                .andDo(print());
+        // then
+        User philip = philip().userResponse();
+        resultActions
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.id").exists())
+                .andExpect(jsonPath("$.password").doesNotExist())
+                .andExpect(jsonPath("$.username").value(philip.getUsername()))
+                .andExpect(jsonPath("$.role").value(philip.getRole().toString()));
+    }
+
+    @Test
+    @DisplayName("should return 400 when existing user is passed")
+    void shouldReturnBadRequestWhenExistingUserIsPassed() throws Exception {
+        // given
+        String existingUserJson = olga().jsonRequest();
+        // when
+        ResultActions resultActions
+                = mockMvc.perform(post("/users")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(existingUserJson)
+                        .with(user("admin")
+                                .roles("ADMIN")
+                                .password("admin")))
+                .andDo(print());
+        // then
+        resultActions
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.errors[*].code", containsInAnyOrder("resource.already_exists")));
+    }
+
+    @Test
+    @DisplayName("should return 400 when empty is passed")
+    void shouldReturnBadRequestWhenEmptyUserIsPassed() throws Exception {
+        // when
+        ResultActions resultActions
+                = mockMvc.perform(post("/users")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{}")
+                        .with(user("admin")
+                                .roles("ADMIN")
+                                .password("admin")))
+                .andDo(print());
+        // then
+        resultActions
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.errors[*].code", containsInAnyOrder("attribute.not_null")));
+    }
+
+    @Test
+    @DisplayName("should return 400 when invalid user with no username is passed")
+    void shouldReturnBadRequestWhenUserWithoutUsernameIsPassed() throws Exception {
+        // given
+        String invalidRequestJson = invalidUserWithNoUsername().jsonRequest();
+        // when
+        ResultActions resultActions
+                = mockMvc.perform(post("/users")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(invalidRequestJson)
+                        .with(user("admin")
+                                .roles("ADMIN")
+                                .password("admin")))
+                .andDo(print());
+        // then
+        resultActions
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.errors[*].code", containsInAnyOrder("attribute.not_null")));
+    }
+
+
+    @Test
+    @DisplayName("should return 400 when invalid user with no password is passed")
+    void shouldReturnBadRequestWhenUserWithoutPasswordIsPassed() throws Exception {
+        // given
+        String invalidRequestJson = invalidUserWithNoPassword().jsonRequest();
+        // when
+        ResultActions resultActions
+                = mockMvc.perform(post("/users")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(invalidRequestJson)
+                        .with(user("admin")
+                                .roles("ADMIN")
+                                .password("admin")))
+                .andDo(print());
+        // then
+        resultActions
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.errors[*].code", containsInAnyOrder("attribute.not_null")));
+    }
+
+    @Test
+    @DisplayName("should create user with default role")
+    void shouldCreateUserWithDefaultRole() throws Exception {
+        // given
+        String invalidRequestJson = userWithDefaultRole().jsonRequest();
+        // when
+        ResultActions resultActions
+                = mockMvc.perform(post("/users")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(invalidRequestJson)
+                        .with(user("admin")
+                                .roles("ADMIN")
+                                .password("admin")))
+                .andDo(print());
+        // then
+        resultActions
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.role").value(Role.USER.toString()));
     }
 }

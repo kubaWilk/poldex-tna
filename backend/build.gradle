@@ -1,7 +1,6 @@
 plugins {
     id 'org.springframework.boot' version '2.4.5'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
-    id 'co.uzzu.dotenv.gradle' version '1.1.0'
     id 'idea'
     id 'java'
 }
@@ -75,8 +74,13 @@ tasks.withType(Test).configureEach {
 
 check.dependsOn integrationTest
 
+bootRun {
+    systemProperties = System.properties as Map<String, ?>
+}
+
 dependencies {
     implementation(
+            'org.springframework.boot:spring-boot-starter-actuator',
             'org.springframework.boot:spring-boot-starter-data-jpa',
             'org.springframework.boot:spring-boot-starter-web',
             'org.springframework.boot:spring-boot-starter-validation',
