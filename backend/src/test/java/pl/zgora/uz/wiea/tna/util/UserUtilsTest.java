@@ -9,29 +9,39 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @ActiveProfiles("test")
-public class UserUtilsTest {
+class UserUtilsTest {
 
     @Test
     void shouldMapUserEntityToUser() {
-        final UserEntity userEntity = new UserEntity(1, "testname", "test");
-        final User user = UserUtils.mapUserEntityToUser(userEntity);
+        final UserEntity expected = UserEntity.builder()
+                .id(1L)
+                .username("sample")
+                .password("sample")
+                .build();
+
+        final User actual = UserUtils.mapUserEntityToUser(expected);
 
         assertAll(
-                () -> assertEquals(userEntity.getId(), user.getId()),
-                () -> assertEquals(userEntity.getUsername(), user.getUsername()),
-                () -> assertEquals(userEntity.getPassword(), user.getPassword())
+                () -> assertEquals(expected.getId(), actual.getId()),
+                () -> assertEquals(expected.getUsername(), actual.getUsername()),
+                () -> assertEquals(expected.getPassword(), actual.getPassword())
         );
     }
 
     @Test
     void shouldMapUserToUserEntity() {
-        final User user = new User(1, "testname", "test");
-        final UserEntity userEntity = UserUtils.mapUserToUserEntity(user);
+        final User expected = User.builder()
+                .id(1L)
+                .username("sample")
+                .password("sample")
+                .build();
+
+        final UserEntity actual = UserUtils.mapUserToUserEntity(expected);
 
         assertAll(
-                () -> assertEquals(user.getId(), userEntity.getId()),
-                () -> assertEquals(user.getUsername(), userEntity.getUsername()),
-                () -> assertEquals(user.getPassword(), userEntity.getPassword())
+                () -> assertEquals(expected.getId(), actual.getId()),
+                () -> assertEquals(expected.getUsername(), actual.getUsername()),
+                () -> assertEquals(expected.getPassword(), actual.getPassword())
         );
     }
 }

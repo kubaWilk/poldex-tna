@@ -46,7 +46,7 @@ These of following must be installed on your local machine:
 ### Build and run
 Clone repository:  
 ```sh
-git clone https://github.com/monaboiste/tna-system-backend.git
+git clone https://github.com/kubaWilk/poldex-tna.git && cd backend
 ```  
 Run PostgreSQL
 ```sh
