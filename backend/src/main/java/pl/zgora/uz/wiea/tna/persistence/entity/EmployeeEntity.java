@@ -15,12 +15,9 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.MapsId;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-import javax.persistence.PreRemove;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
-import java.util.List;
 
 @Getter
 @Setter
@@ -71,13 +68,5 @@ public class EmployeeEntity {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private UserEntity userEntity;
 
-    @OneToMany(mappedBy = "employeeEntity")
-    private List<AttendanceRecordEntity> employeeAttendanceRecordEntities;
-
-    @PreRemove
-    private void preRemove() {
-        for (AttendanceRecordEntity recordEntity : employeeAttendanceRecordEntities) {
-            recordEntity.setEmployeeEntity(null);
-        }
-    }
+    // TODO: add attendance records
 }

@@ -9,7 +9,6 @@ import pl.zgora.uz.wiea.tna.persistence.repository.EmployeeRepository;
 import pl.zgora.uz.wiea.tna.service.exception.ContractIdViolationException;
 import pl.zgora.uz.wiea.tna.service.exception.UserNotFoundException;
 import pl.zgora.uz.wiea.tna.util.StringUtils;
-import pl.zgora.uz.wiea.tna.util.UserUtils;
 
 import java.util.List;
 import java.util.Objects;
