@@ -28,10 +28,8 @@ public class ShiftService {
     }
 
     public ShiftEntity fetchShiftById(final long shiftId) {
-        Optional<ShiftEntity> byId = shiftRepository.findById(shiftId);
-        if(byId.isEmpty()) throw new ShiftNotFoundException("Shift with given id hasn't been found.");
-
-        return byId.get();
+        return shiftRepository.findById(shiftId)
+                .orElseThrow(ShiftNotFoundException::new);
     }
 
     public Optional<ShiftEntity> fetchShiftByDateAndTimeOfDay(final Date date,
