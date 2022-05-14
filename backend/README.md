@@ -58,6 +58,14 @@ Execute
 ./gradlew bootRun
 ```
 
+To auto-generate sample data, run Spring Boot application as follows:
+```sh
+./gradlew bootRun \
+    -Dspring.datasource.data="file:///$PWD/scripts/sample-data.sql" \
+    -Dspring.datasource.initialization-mode=always \
+    -Dspring.jpa.hibernate.ddl-auto=update
+```
+
 #### Tests
 Run unit tests:
 ```sh
