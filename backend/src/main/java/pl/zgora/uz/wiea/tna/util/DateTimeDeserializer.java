@@ -13,8 +13,8 @@ public class DateTimeDeserializer extends JsonDeserializer<OffsetDateTime> {
 
     @Override
     public OffsetDateTime deserialize(final JsonParser parser,
-                                      final DeserializationContext context)
-            throws IOException {
+                              final DeserializationContext context)
+                              throws IOException {
 
         final DateTimeFormatter dateTimeFormatter = DateTimeFormatter
                 .ofPattern("yyyy-MM-dd HH:mm:ss")
