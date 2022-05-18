@@ -8,19 +8,21 @@ import pl.zgora.uz.wiea.tna.persistence.entity.UserEntity;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class UserUtils {
 
-    static public User mapUserEntityToUser(final UserEntity userEntity) {
+    public static User mapUserEntityToUser(final UserEntity userEntity) {
         return User.builder()
                 .id(userEntity.getId())
                 .username(userEntity.getUsername())
                 .password(userEntity.getPassword())
+                .role(userEntity.getRole())
                 .build();
     }
 
-    static public UserEntity mapUserToUserEntity(final User user) {
+    public static UserEntity mapUserToUserEntity(final User user) {
         return UserEntity.builder()
                 .id(user.getId())
                 .username(user.getUsername())
                 .password(user.getPassword())
+                .role(user.getRole())
                 .build();
     }
 }
