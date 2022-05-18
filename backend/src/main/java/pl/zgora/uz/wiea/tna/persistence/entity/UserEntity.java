@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.Type;
+import org.hibernate.annotations.TypeDef;
+import pl.zgora.uz.wiea.tna.persistence.db.PostgreSQLEnumType;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -24,6 +26,9 @@ import javax.persistence.Table;
 @AllArgsConstructor
 @Entity
 @Table(name = "users")
+@TypeDef(
+        name = "pgsql_enum",
+        typeClass = PostgreSQLEnumType.class)
 public class UserEntity {
 
     @Id
@@ -44,7 +49,7 @@ public class UserEntity {
     private String password;
 
     @Column(name = "role", columnDefinition = "user_role", nullable = false)
-    @Type(type = "pl.zgora.uz.wiea.tna.persistence.db.PostgreSQLEnumType")
+    @Type(type = "pgsql_enum")
     @Enumerated(EnumType.STRING)
     private Role role;
 }
