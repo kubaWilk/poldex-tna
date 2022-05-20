@@ -12,6 +12,7 @@ const API_URL = `${BASE_URL}${PREFIX}`;
                 'Authorization': `Basic + ${localStorage.getItem('token')}`,
             },
         };
+
         return fetch(`${API_URL}/users/currenst`, requestOptions);
     }
 }

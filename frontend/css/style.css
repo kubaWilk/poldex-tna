@@ -1,7 +1,20 @@
+/**
+* Template Name: Dashio
+* Template URL: https://templatemag.com/dashio-bootstrap-admin-template/
+* Author: TemplateMag.com
+* License: https://templatemag.com/license/
+*/
+/*
+Template Name: DASHIO - Bootstrap 3.1.1 Admin Theme
+Template Version: 1.0
+Author: Carlos Alvarez
+Website: http://Alvarez.is/
+*/
 
+/* Import fonts */
 @import url(https://fonts.googleapis.com/css?family=Ruda:400,700,900);
 
-
+/* BASIC THEME CONFIGURATION */
 body {
     color: #797979;
 	background: #eaeaea;
@@ -9,9 +22,6 @@ body {
     padding: 0px !important;
     margin: 0px !important;
     font-size:13px;
-}
-.gradient-custom {
-    background: linear-gradient(to right, rgba(106, 17, 203, 1), rgba(37, 117, 252, 1))
 }
 
 ul li {
@@ -37,7 +47,7 @@ a, a:hover, a:focus {
     height: 100%;
 }
 
-
+/* Bootstrap Modifications */
 .modal-header {
 	background: #4ECDC4;
 }
@@ -1078,7 +1088,95 @@ PANELS CONFIGURATIONS
 	margin-left: 10px;
 }
 
-/
+/*WEATHER PANELS*/
+
+/* Weather 1 */
+.weather {
+	background: url(../img/weather.jpg) no-repeat center top;
+	text-align: center;
+	background-position: center center;
+}
+.weather i {
+	color: white;
+	margin-top: 45px;
+}
+.weather h2 {
+	color: white;
+	font-weight: 900;
+}
+.weather h4 {
+	color: white;
+	font-weight: 900;
+	letter-spacing: 1px;
+}
+
+/* Weather 2 */
+.weather-2 {
+	background: #e9f0f4;
+}
+.weather-2 .weather-2-header {
+	background: #54bae6;
+	padding-top: 5px;
+	margin-bottom: 5px;
+}
+.weather-2 .weather-2-header p {
+	color: white;
+	margin-left: 5px;
+	margin-right: 5px;
+}
+.weather-2 .weather-2-header p small {
+	font-size: 10px;
+}
+.weather-2 .data {
+	margin-right: 10px;
+	margin-left: 10px;
+	color: #272b34;
+}
+.weather-2 .data h5 {
+	margin-top: 0px;
+	font-weight: lighter;
+}
+.weather-2 .data h1{
+	margin-top: 2px;
+}
+
+/* Weather 3 */
+.weather-3 {
+	background: #ffcf00;
+}
+
+.weather-3 i {
+	color: white;
+	margin-top: 30px;
+	font-size: 70px;
+}
+.weather-3 h1 {
+	margin-top: 10px;
+	color: white;
+	font-weight: 900;
+}
+.weather-3 .info {
+	background: #f2f2f2;
+}
+.weather-3 .info i {
+	font-size: 15px;
+	color: #c2c2c2;
+	margin-bottom: 0px;
+	margin-top: 10px;
+}
+.weather-3 .info h3 {
+	font-weight: 900;
+	margin-bottom: 0px;
+}
+.weather-3 .info p {
+	margin-left: 10px;
+	margin-right: 10px;
+	margin-bottom: 16px;
+	color: #c2c2c2;
+	font-size: 15px;
+	font-weight: 700;
+}
+
 
 /* Message Panel */
 .message-p {
@@ -1117,9 +1215,41 @@ PANELS CONFIGURATIONS
 }
 .message-p .form-inline .form-control {
 	width: 100%
+}
+
+/*Twitter Panel*/
+.twitter-panel {
+	background: #4fc1e9;
+	text-align: center;
+}
+.twitter-panel i {
+	color: white;
+	margin-top: 40px;
+}
+.twitter-panel p {
+	color: #f5f5f5;
+	margin: 10px;
+}
+.twitter-panel .user {
+	color: white;
+	font-weight: 900;
+}
 
 
-
+/* Instagram Panel*/
+.instagram-panel {
+	background: url(../img/instagram.jpg) no-repeat center top;
+	text-align: center;
+	background-position: center center;
+}
+.instagram-panel i {
+	color: white;
+	margin-top: 35px;
+}
+.instagram-panel p {
+	margin: 5px;
+	color: white;
+}
 
 /* Product Panel */
 .product-panel {
@@ -1150,6 +1280,98 @@ PANELS CONFIGURATIONS
 	border-radius: 100%;
 }
 
+/* Soptify Panel */
+#spotify {
+	background: url(../img/lorde.jpg) no-repeat center top;
+	margin-top: -15px;
+	background-attachment: relative;
+	background-position: center center;
+	min-height: 220px;
+	width: 100%;
+    -webkit-background-size: 100%;
+    -moz-background-size: 100%;
+    -o-background-size: 100%;
+    background-size: 100%;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+#spotify .btn-clear-g {
+	top: 15%;
+	right: 10px;
+	position: absolute;
+	margin-top: 5px;
+}
+#spotify .sp-title {
+	bottom: 15%;
+	left: 25px;
+	position: absolute;
+	color: #efefef;
+}
+#spotify .sp-title h3 {
+	font-weight: 900;
+}
+#spotify .play{
+	bottom: 18%;
+	right: 25px;
+	position: absolute;
+	color: #efefef;
+	font-size: 20px
+}
+.followers {
+	margin-left: 5px;
+	margin-top: 5px;
+}
+
+/* BLOG PANEL */
+#blog-bg {
+	background: url(../img/blog-bg.jpg) no-repeat center top;
+	margin-top: -15px;
+	background-attachment: relative;
+	background-position: center center;
+	min-height: 150px;
+	width: 100%;
+    -webkit-background-size: 100%;
+    -moz-background-size: 100%;
+    -o-background-size: 100%;
+    background-size: 100%;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+#blog-bg .badge {
+	position: absolute;
+	top: 20px;
+	left: 35px;
+}
+.badge-popular {
+	background: #3498db;
+	width: 70px;
+	height: 70px;
+	line-height: 70px;
+	font-size: 13px;
+	color: #fff;
+	text-align: center;
+	border-radius: 100%;
+}
+.blog-title {
+	background: rgba(0,0,0,0.5);
+	bottom: 100px;
+	padding: 6px;
+	color: white;
+	font-weight: 700;
+	position: absolute;
+	display: block;
+	width: 120px;
+}
+.blog-text {
+	margin-left: 8px;
+	margin-right: 8px;
+	margin-top: 15px;
+	font-size: 12px;
+}
 
 /* Calendar Configuration */
 #calendar {
@@ -1748,51 +1970,15 @@ ul li {
 }
 .login-wrap {
 	padding: 20px;
-    border: none, 
-    
 }
 .login-wrap .registration {
 	text-align: center;
 }
-input{
-    margin-left: 10%;
-    margin-right: 10%;
-    margin-top: 3ch;
-    border-left: 5px solid #7AC0DA;
-    border-bottom: 1px solid #7AC0DA;
-    border-top: 0px;
-    border-right: 0px;
-    font-size: larger;
-
+.login-social-link {
+	display: block;
+	margin-top: 20px;
+	margin-bottom: 15px;
 }
-input:focus{
-    outline: none;
-    border-top: 0px;
-    border-right: 0px;
-    border-left: 0px;
-    border-bottom: 3px solid #555;
-
-
-}
-.form-login button{
-border-radius: 0.5ch;
-position:relative;
-margin-top: 10%;
-margin-left: 20%;
-margin-right: 20%;
-width: 60%;
-padding-top: 3%;
-padding-bottom: 3%;
-font-size: larger;
-
-
-}
-
-label {
-   margin-left: 2%;
-  }
-
-
 
 
 /*LOCK SCREEN CONF*/
