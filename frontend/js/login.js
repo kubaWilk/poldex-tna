@@ -2,7 +2,7 @@ import { apiUrl } from './api.js';
 
 $('#loginButton').click(e => {
     e.preventDefault();
-    see: login.html
+    // see: login.html
     localStorage.clear();
 
     const username = $('#username').val();
@@ -48,6 +48,6 @@ $('#loginButton').click(e => {
         })
         .catch(err => {
             console.error(err);
-            $('#loginError').text('Niepoprawne dane logowania, spróbuj ponownie.');
+            $('#loginError').text('Nieprawidłowe dane logowania!');
         });
 });

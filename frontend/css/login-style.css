@@ -4,22 +4,8 @@
     margin: 0;
     box-sizing: border-box;
 }
-body{
-    background-color: #21D4FD;
-    background-image: linear-gradient(19deg, #21D4FD 0%, #00bf72 100%);
-    
-}
-input[type=checkbox] 
-{
-    display:inline-block;
-    transform: scale(3.5);
-    border: 0.1ch;
-}
-label
-{
-   color: #030e0f;
-   line-height: 20px;
-}  
+
+
 .background{
     width: 430px;
     height: 520px;
@@ -28,17 +14,9 @@ label
     left: 50%;
     top: 50%;
 }
-.parent {
-    text-align: center;
-  }
-  .child {
-      margin-right: 2ch;
-  
-    display: inline-block;
-    vertical-align: middle;
-  }
+
 form{
-    height: 50ch;
+    height: 55ch;
     width: 40ch;
     background-color: rgba(255,255,255,0.13);
     position: absolute;
@@ -68,14 +46,8 @@ form h3{
     font-weight: bold;
 }
 
-label{
-    display: block;
-    margin-top: 30px;
-    font-size: 16px;
-    font-weight: 500;
-    font-weight: bold;
-}
-input{
+
+input[type=text]{
     display: block;
     height: 50px;
     width: 100%;
@@ -84,6 +56,19 @@ input{
     margin-top: 2ch;
     font-size: 150%;
     font-weight: 300;
+    font-size: 32px;
+
+}
+input[type=password]{
+    display: block;
+    height: 50px;
+    width: 100%;
+    background-color: rgba(255,255,255,0.5);
+    border-radius: 3px;
+    margin-top: 2ch;
+    font-size: 150%;
+    font-weight: 300;
+    font-size: 32px;
 
 }
 
@@ -92,9 +77,8 @@ input{
 
 }
 button{
-    margin-top: 2ch;
-    margin-right: 1ch;
-    margin-left: 20%;
+    margin-top: 3ch;
+    margin-left: 5ch;
     width: 60%;
     background-color: #ffffff;
     color: #080710;
@@ -106,6 +90,7 @@ button{
 }
 button:hover{
     background-color: #21D4FD;
-    background-image: linear-gradient(19deg, #21D4FD 0%, #B721FF 100%);
+
+    border-radius: 5px;
     
 }

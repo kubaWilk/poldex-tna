@@ -4,46 +4,49 @@
 <head>
   <meta charset='utf-8'>
   <meta name='viewport' content='width=device-width, initial-scale=1.0'>
-  <title>System Rejestracji Czasu Pracy</title>
-  <link href='img/favicon.png' rel='icon'>
-  <link href='css/login-style.css' rel='stylesheet'>
 
+  <title>System Rejestracji Czasu Pracy</title>
+
+ 
+  <link href='img/favicon.png' rel='icon'>
+
+
+  <link href='css/login-style.css' rel='stylesheet'>
 
 </head>
 
 <body>
-  <div class="background">
-    <div class="shape"></div>
-    <div class="shape"></div>
-</div>
   <script type="text/javascript" src="js/passwordVisibility.js"></script>
   <div id='login-page'>
     <div class='container'>
-      <form>
-        <h3>RCP PolDex</h3>
-        
-        <input type="text" placeholder="Login" id="username">
-       
-        <input type="password" placeholder="Hasło" id="password">
-        <div class='parent'>
-          <div class='child'>
-            <input type="checkbox" id="pwd" onclick="showPassword()"> 
-          </div>
-          <div class='child'>
-            <label for="pwd" >Pokaż hasło</label> 
-          </div>
+      <form class='form-login'>
+        <h2 class='form-login-heading'>Zaloguj się</h2>
+        <div class='login-wrap'>
+          <input id='username' type='text' class='form-control' placeholder='Login' autofocus>
+          <br>
+          <input id='password' type='password' class='form-control' placeholder='Hasło'>
+          <br>
+          <input type="checkbox" id="pwd"  onclick="showPassword()"> Pokaż hasło
+         <br>
+          <button id='loginButton' class='btn btn-theme btn-block' type='submit'>
+            <i class='fa fa-lock'></i> ZALOGUJ
+          </button>
+          <br>
+          <p id='loginError' style='color: rgb(219, 0, 0);'></p>
         </div>
-       
-        
-        <div>
-        <button>Zaloguj się</button>
-       
-    </form>
+      </form>
     </div>
   </div>
-  
-  <script type='module' src='./js/login.js'></script>
-
+  <script src='lib/jquery/jquery.min.js'></script>
+  <script src='lib/bootstrap/js/bootstrap.min.js'></script>
+  <script type='module' src="js/api.js"></script>
+  <script type='module' src='js/login.js'></script>
+  <script type='text/javascript' src='lib/jquery.backstretch.min.js'></script>
+  <script>
+    $.backstretch('img/login-bg.jpg', {
+      speed: 500
+    });
+  </script>
 </body>
 
 </html>

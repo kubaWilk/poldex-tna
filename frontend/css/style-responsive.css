@@ -1,5 +1,5 @@
 @media (min-width: 980px) {
-
+    /*-----*/
     .custom-bar-chart {
         margin-bottom: 40px;
     }
@@ -15,12 +15,12 @@
     .mail-box .lg-side {
         width: 70%;
     }
-    
+    /*-----*/
     .custom-bar-chart {
         margin-bottom: 40px;
     }
 
-  
+    /*chat room*/
 
     .chat-room aside {
         display: block;
@@ -50,7 +50,7 @@
         border-radius: 0 0 4px 4px;
         -webkit-border-radius: 0 0 4px 4px;
     }
-
+    /**/
     .chat-room .right-side .user-head {
         float: left;
         width: 100%;
@@ -85,7 +85,7 @@
         position: absolute;
     }
 
-
+    /*sidebar*/
 
     #sidebar {
         height: auto;
@@ -96,7 +96,7 @@
     }
 
 
-
+    /* body container */
     #main-content {
         margin: 0px!important;
         position: none !important;
@@ -116,7 +116,7 @@
         text-align: left;
     }
     #sidebar > ul > li > a i{
-
+        /*display: none !important;*/
     }
 
     .mail-info, .mail-info:hover {
@@ -143,11 +143,12 @@
     }
 
 
+    /* sidebar */
     #sidebar {
         margin: 0px !important;
     }
 
-    
+    /* sidebar collabler */
     #sidebar .btn-navbar.collapsed .arrow {
         display: none;
     }
@@ -164,7 +165,7 @@
     }
 
 
- 
+    /*---------*/
 
     .modal-footer .btn {
         margin-bottom: 0px !important;
@@ -185,7 +186,7 @@
         width: 100% ;
     }
 
-   
+    /* full calendar fix */
     .fc-header-right {
         left:25px;
         position: absolute;
@@ -270,7 +271,11 @@
         margin-bottom:0px !important;
     }
 
-    
+    /*--*/
+
+    /*.chart-position {*/
+        /*margin-top: 0px;*/
+    /*}*/
 
     .timeline-desk .album a {
         margin-bottom: 5px;
@@ -285,12 +290,12 @@
         margin-bottom: 0;
     }
 
-   
+    /*-----*/
     .custom-bar-chart {
         margin-bottom: 40px;
     }
 
-
+    /*menu icon plus minus*/
     .dcjq-icon {
         top: 10px;
     }
@@ -298,7 +303,7 @@
         padding: 0;
     }
 
-
+    /*---*/
 
     .img-responsive {
         width: 100%;
@@ -476,6 +481,7 @@
         display: none;
     }
 }
+
 
 
 
