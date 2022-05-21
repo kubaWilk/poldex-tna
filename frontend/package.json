@@ -1,0 +1,16 @@
+{
+  "name": "deploy",
+  "version": "1.0.0",
+  "description": "Deploy version of frontend for poldex-tna",
+  "main": "public/index.html",
+  "devDependencies": {},
+  "dependencies":{
+	  "http-server": "^14.1.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "npm exec http-server public/ -p 6549"
+  },
+  "author": "",
+  "license": "ISC"
+}

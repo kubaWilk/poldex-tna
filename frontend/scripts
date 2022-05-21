@@ -1,0 +1,5 @@
+{
+	scripts:{
+		"start": npm exec http-server public/ -p 5500"
+	}
+}
